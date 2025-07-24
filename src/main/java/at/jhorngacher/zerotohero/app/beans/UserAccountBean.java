@@ -1,15 +1,15 @@
-package at.jhorngacher.jsftest.jsftest.beans;
+package at.jhorngacher.zerotohero.app.beans;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
-import at.jhorngacher.jsftest.jsftest.models.UserAccount;
+import at.jhorngacher.zerotohero.app.models.UserAccount;
 
 import java.io.IOException;
 import java.io.Serializable;
-import at.jhorngacher.jsftest.jsftest.dao.UserAccountDAO;
+import at.jhorngacher.zerotohero.app.dao.UserAccountDAO;
 
 @Named
 @SessionScoped

@@ -1,10 +1,8 @@
-package at.jhorngacher.jsftest.jsftest.dao;
+package at.jhorngacher.zerotohero.app.dao;
 
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
-import at.jhorngacher.jsftest.jsftest.models.UserAccount;
-import at.jhorngacher.jsftest.jsftest.utils.JPAUtil;
-import jakarta.enterprise.inject.Typed;
+import at.jhorngacher.zerotohero.app.models.UserAccount;
+import at.jhorngacher.zerotohero.app.utils.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 

@@ -6,7 +6,7 @@
 
     <persistence-unit name="carbonU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>at.jhorngacher.jsftest.jsftest.models.CarbonData</class>
+        <class>at.jhorngacher.zerotohero.app.models.CarbonData</class>
         <!-- Database Props -->
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>

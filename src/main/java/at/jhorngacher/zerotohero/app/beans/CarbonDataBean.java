@@ -1,14 +1,13 @@
-package at.jhorngacher.jsftest.jsftest.beans;
+package at.jhorngacher.zerotohero.app.beans;
 
-import at.jhorngacher.jsftest.jsftest.models.CarbonData;
-import jakarta.annotation.ManagedBean;
+import at.jhorngacher.zerotohero.app.models.CarbonData;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
 import java.io.Serializable;
 import java.util.List;
 
-import at.jhorngacher.jsftest.jsftest.dao.CarbonDataDAO;
+import at.jhorngacher.zerotohero.app.dao.CarbonDataDAO;
 
 @Named
 @ViewScoped

@@ -1,8 +1,7 @@
-package at.jhorngacher.jsftest.jsftest.dao;
+package at.jhorngacher.zerotohero.app.dao;
 
-import at.jhorngacher.jsftest.jsftest.models.CarbonData;
-import at.jhorngacher.jsftest.jsftest.utils.JPAUtil;
-import jakarta.enterprise.inject.Typed;
+import at.jhorngacher.zerotohero.app.models.CarbonData;
+import at.jhorngacher.zerotohero.app.utils.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 

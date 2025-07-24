@@ -1,4 +1,4 @@
-package at.jhorngacher.jsftest.jsftest.utils;
+package at.jhorngacher.zerotohero.app.utils;
 
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;

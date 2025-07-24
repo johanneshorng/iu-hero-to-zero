@@ -1,4 +1,4 @@
-package at.jhorngacher.jsftest.jsftest.models;
+package at.jhorngacher.zerotohero.app.models;
 
 import java.time.LocalDate;
 import java.time.Year;

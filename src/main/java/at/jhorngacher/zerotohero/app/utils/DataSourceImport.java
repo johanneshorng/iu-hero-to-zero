@@ -1,7 +1,6 @@
-package at.jhorngacher.jsftest.jsftest.utils;
+package at.jhorngacher.zerotohero.app.utils;
 
-import at.jhorngacher.jsftest.jsftest.models.CarbonData;
-import at.jhorngacher.jsftest.jsftest.dao.CarbonDataDAO;
+import at.jhorngacher.zerotohero.app.models.CarbonData;
 
 import com.opencsv.CSVReader;
 import jakarta.persistence.EntityManager;

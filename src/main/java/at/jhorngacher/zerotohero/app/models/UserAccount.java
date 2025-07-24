@@ -1,4 +1,4 @@
-package at.jhorngacher.jsftest.jsftest.models;
+package at.jhorngacher.zerotohero.app.models;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
