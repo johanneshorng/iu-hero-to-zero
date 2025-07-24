@@ -1,7 +1,7 @@
 package at.jhorngacher.jsftest.jsftest.models;
 
+import java.time.LocalDate;
 import java.time.Year;
-import java.util.Date;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -28,12 +28,12 @@ public class CarbonData{
     private Year emissionYear;
     private String countryName;
     private String countryCode;
-    private Integer countryPopulation;
-    private Float carbonEmission;
-    private Float carbonEmissionPerInhabitant;
-    private Float carbonEmissionCumulated;
+    private Long countryPopulation;
+    private Double carbonEmission;
+    private Double carbonEmissionPerInhabitant;
+    private Double carbonEmissionCumulated;
     private Integer author;
-    private Date creationDate;
+    private LocalDate creationDate;
 
     public Integer getDataId(){
         return dataId;
@@ -65,35 +65,35 @@ public class CarbonData{
         this.countryCode = countryCode;
     }
 
-    public Integer getCountryPopulation() {
+    public Long getCountryPopulation() {
         return countryPopulation;
     }
 
-    public void setCountryPopulation(Integer countryPopulation) {
+    public void setCountryPopulation(Long countryPopulation) {
         this.countryPopulation = countryPopulation;
     }
 
-    public Float getCarbonEmission() {
+    public Double getCarbonEmission() {
         return carbonEmission;
     }
 
-    public void setCarbonEmission(Float carbonEmission) {
+    public void setCarbonEmission(Double carbonEmission) {
         this.carbonEmission = carbonEmission;
     }
 
-    public Float getCarbonEmissionPerInhabitant() {
+    public Double getCarbonEmissionPerInhabitant() {
         return carbonEmissionPerInhabitant;
     }
 
-    public void setCarbonEmissionPerInhabitant(Float carbonEmission) {
+    public void setCarbonEmissionPerInhabitant(Double carbonEmission) {
         this.carbonEmissionPerInhabitant = carbonEmission / this.carbonEmission;
     }
 
-    public Float getCarbonEmissionCumulated() {
+    public Double getCarbonEmissionCumulated() {
         return carbonEmissionCumulated;
     }
 
-    public void setCarbonEmissionCumulated(Float carbonEmissionCumulated) {
+    public void setCarbonEmissionCumulated(Double carbonEmissionCumulated) {
         this.carbonEmissionCumulated = carbonEmissionCumulated;
     }
 
@@ -105,11 +105,11 @@ public class CarbonData{
         this.author = author;
     }
 
-    public Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+   <title>ZeroToHero - CO2 Emissionen</title>
+   <h:outputStylesheet name="src/css/core.css" />
+</h:head>
+<h:body>
+
+   <div id="main">
+
+      <div class="card">
+         <h:form>
+            <h5 class="mt-0">Login</h5>
+            <p:messages id="messages" showDetail="true" closable="true" autoUpdate="true" />
+            <div class="field grid">
+               <h:outputLabel for="accountName" styleClass="col-fixed" style="width: 100px;" value="E-Mail Adresse" />
+               <div class="col">
+                  <p:inputText type="email" id="accountName" value="#{userAccountBean.accountEmail}" placeholder="mm@zerotohero.com"/>
+               </div>
+            </div>
+            <div class="field grid">
+               <h:outputLabel for="accountPassword" styleClass="col-fixed" style="width: 100px;" value="Passwort" />
+               <div class="col">
+                  <p:password id="accountPassword" value="#{userAccountBean.accountPassword}" feedback="false" placeholder="Testpasswort123!"/>
+               </div>
+            </div>
+            <p:commandButton value="Einloggen" action="#{userAccountBean.login()}" update="@form" />
+         </h:form>
+      </div>
+
+   </div>
+
+</h:body>
+</html>

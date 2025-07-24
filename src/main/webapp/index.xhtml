@@ -1,19 +1,68 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-<h:head>
-    <title>JSF Beispielseite</title>
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"><h:head>
+    <title>ZeroToHero - CO2 Emissionen</title>
+    <h:outputStylesheet name="src/css/core.css" />
 </h:head>
 <h:body>
-    <h1>Hallo, JSF!</h1>
 
-    <h:form>
-        <h:outputLabel value="Dein Name:" for="nameInput" />
-        <h:inputText id="nameInput" value="#{helloBean.name}" />
+<div id="main">
 
-        <h:commandButton value="Senden" action="#{helloBean.greet}" />
+        <div id="navigation">
 
-        <h:outputText value="#{helloBean.greeting}" style="display:block; margin-top:10px;" />
-    </h:form>
+            <p:link value="Startseite" icon="pi pi-home" href="#" styleClass="active" />
+            <p:link value="Emissionen hinzufügen" rendered="#{userAccountBean.accountLoggedIn}" href="./add.xhtml" />
+
+            <div class="navigation-end">
+
+                <h:outputText value="Angemeldet als, #{userAccountBean.accountName}" rendered="#{userAccountBean.accountLoggedIn}" />
+                <h:form>
+                    <p:commandButton rendered="#{userAccountBean.accountLoggedIn}" value="Logout" action="#{userAccountBean.logout}"/>
+                </h:form>
+
+                <p:link href="./login.xhtml" rendered="#{not userAccountBean.accountLoggedIn}" icon="pi pi-directions" value="Login"/>
+            </div>>
+
+        </div>
+
+        <div class="greeting-container">
+            <h1>Willkommen im neuen Zero To Hero Dashboard</h1>
+            <h2>Diese Applikation bietet die Möglichkeit CO2-Emissionen aller Länder weltweit anzusehen!</h2>
+        </div>
+
+        <h:form styleClass="country-selection-container">
+
+            <p:panel header="Wähle hier ein Land aus um dir die aktuellen CO2-Emissionen anzeigen zu lassen">
+                <p:selectOneListbox
+                        id="advanced"
+                        value="#{carbonDataBean.selectedCountryName}"
+                        var="c"
+                        fileMatchMode="contains"
+                        filter="true">
+                    <f:selectItems
+                            value="#{carbonDataBean.countries}"
+                            var="country"
+                            itemLabel="#{country}"
+                            itemValue="#{country}"
+                    />
+                    <p:column>
+                        <h:outputText value="#{c}" />
+                    </p:column>
+                </p:selectOneListbox>
+                <p:commandButton value="Daten laden" action="#{carbonDataBean.loadCountry}" update="resultsList" />
+            </p:panel>
+
+            <p:panel id="resultsList">
+                <h:outputText value="Hier steht dein Datensatz" />
+                <h:outputText value="#{carbonDataBean.selectedCountry.carbonEmission}" />
+            </p:panel>
+
+        </h:form>
+
+    </div>
+
+
 </h:body>
 </html>

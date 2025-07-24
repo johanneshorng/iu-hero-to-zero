@@ -2,9 +2,18 @@ package at.jhorngacher.jsftest.jsftest.dao;
 
 import at.jhorngacher.jsftest.jsftest.models.CarbonData;
 import at.jhorngacher.jsftest.jsftest.utils.JPAUtil;
+import jakarta.enterprise.inject.Typed;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+
+import java.time.Year;
 import java.util.List;
+
+/**
+ *
+ * CarbonData DataObject regelt die Kommunikation zw. Bean u. DB
+ *
+ */
 
 
 public class CarbonDataDAO {
@@ -30,16 +39,91 @@ public class CarbonDataDAO {
         EntityManager em = JPAUtil.getEntityManager();
 
         try{
-            TypedQuery<CarbonData> query = em.createQuery("Select c from carbonData c ORDER BY c.emissionYEAR, c.countryName", CarbonData.class);
+            TypedQuery<CarbonData> query = em.createQuery("Select c from CarbonData c ORDER BY c.emissionYear, c.countryName", CarbonData.class);
             return query.getResultList();
-        }
-        catch(Exception ex){
-            em.getTransaction().rollback();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         finally{
             em.close();
         }
 
     }
+
+    public List<CarbonData> findByCountryName(String countryName){
+        EntityManager em = JPAUtil.getEntityManager();
+
+        try{
+            TypedQuery<CarbonData> query = em.createQuery("Select c from CarbonData c where c.countryName = :countryName", CarbonData.class);
+            query.setParameter("countryName", countryName);
+            return query.getResultList();
+        }
+        catch(Exception ex){
+            throw new RuntimeException(ex);
+        }
+        finally{
+            em.close();
+        }
+    }
+
+    public List<CarbonData> findByYear(Year emissionYear){
+        EntityManager em = JPAUtil.getEntityManager();
+
+        try {
+            TypedQuery<CarbonData> query = em.createQuery("Select c from CarbonData c where c.emissionYear = :emissionYear", CarbonData.class);
+            query.setParameter("emissionYear", emissionYear);
+            return query.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        finally{
+            em.close();
+        }
+    }
+
+    /**
+     *
+     * Lädt eine Liste mit Ländernamen
+     * @return List<CountryNames>
+     */
+    public List<String> getCountryNames(){
+
+        EntityManager em = JPAUtil.getEntityManager();
+
+        try{
+            TypedQuery<String> query = em.createQuery("Select Distinct c.countryName from CarbonData c", String.class);
+            return query.getResultList();
+        } catch(Exception ex){
+            throw new RuntimeException(ex);
+        }
+        finally{
+            em.close();
+        }
+
+    }
+
+    public CarbonData getSelectedCountry(String countryName){
+
+        EntityManager em = JPAUtil.getEntityManager();
+        CarbonData data = null;
+
+        try{
+            TypedQuery<CarbonData> query = em.createQuery("Select c from CarbonData c where c.countryName = :countryName ORDER BY c.emissionYear DESC", CarbonData.class);
+            query.setParameter("countryName", countryName);
+            query.setMaxResults(1);
+
+            data =  query.getSingleResult();
+        } catch(Exception ex){
+            throw new RuntimeException(ex);
+        }
+        finally{
+            em.close();
+        }
+
+        return data;
+
+    }
+
+
 
 }
