@@ -7,34 +7,37 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
-   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-   <title>ZeroToHero - CO2 Emissionen</title>
+   <title>ZeroToHero - Login</title>
    <h:outputStylesheet name="src/css/core.css" />
+   <h:outputStylesheet name="src/css/tailwind.css"/>
 </h:head>
-<h:body>
+<h:body styleClass="flex justify-center items-center h">
 
-   <div id="main">
-
-      <div class="card">
-         <h:form>
-            <h5 class="mt-0">Login</h5>
-            <p:messages id="messages" showDetail="true" closable="true" autoUpdate="true" />
-            <div class="field grid">
-               <h:outputLabel for="accountName" styleClass="col-fixed" style="width: 100px;" value="E-Mail Adresse" />
-               <div class="col">
-                  <p:inputText type="email" id="accountName" value="#{userAccountBean.accountEmail}" placeholder="mm@zerotohero.com"/>
-               </div>
+   <div class="relative mx-auto w-full max-w-sm rounded-xl border border-slate-200 bg-white">
+      <div class="flex grow items-center px-5 py-10 sm:px-10 sm:py-15">
+         <div class="grow">
+            <div class="text-center">
+               <h1 class="text-2xl font-extrabold">
+                  Herlich Willkomenn im Login Bereich von Hero-To-Zero!
+               </h1>
+               <h2 class="mt-1 text-sm leading-relaxed text-slate-600">
+                  Bitte logge dich um ein Datensätze erstellen und korrigieren zu können!
+               </h2>
             </div>
-            <div class="field grid">
-               <h:outputLabel for="accountPassword" styleClass="col-fixed" style="width: 100px;" value="Passwort" />
-               <div class="col">
-                  <p:password id="accountPassword" value="#{userAccountBean.accountPassword}" feedback="false" placeholder="Testpasswort123!"/>
+            <h:form styleClass="mt-5 flex flex-col gap-5">
+               <p:messages id="messages" showDetail="false" closable="true" autoUpdate="true" />
+               <div class="space-y-2 flex  flex-wrap wrap">
+                  <h:outputLabel for="accountEmail" styleClass="inline-block text-sm font-medium text-slate-400" value="E-Mail Adresse" />
+                  <p:inputText type="email" id="accountEmail" value="#{userAccountBean.accountEmail}" placeholder="mm@zerotohero.com" styleClass="w-full"/>
                </div>
-            </div>
-            <p:commandButton value="Einloggen" action="#{userAccountBean.login()}" update="@form" />
-         </h:form>
+               <div class="space-y-2 flex flex-col flex-wrap wrap">
+                  <h:outputLabel for="accountPassword" styleClass="inline-block text-sm font-medium text-slate-400" value="Passwort" />
+                  <p:password id="accountPassword" value="#{userAccountBean.accountPassword}" feedback="false" placeholder="Testpasswort123!" styleClass="w-full"/>
+               </div>
+               <p:commandButton value="Einloggen" action="#{userAccountBean.login()}" update="@form" styleClass="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py3 text-sm text-slate-600 hover:border-slate-400"/>
+            </h:form>
+         </div>
       </div>
-
    </div>
 
 </h:body>

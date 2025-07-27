@@ -54,8 +54,24 @@ body{
     display: flex;
     flex-direction: row;
     gap: 10px;
+    justify-content: space-between;
 }
 
 #navigation .navigation-end{
-    float: right;
+   width: 40%;
+    text-align: right;
+}
+
+#navigation .navigation-start{
+    width: 40%;
+}
+
+#navigation .navigation-start a{
+    color: #272727;
+    padding: 5px 10px;
+    margin-right: 5px;
+}
+
+#navigation .navigation-start a.active{
+    background: rgba(0,0,0,.1);
 }

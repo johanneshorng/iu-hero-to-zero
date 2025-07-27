@@ -72,8 +72,6 @@ public class DataSourceImport {
                 if(line[24].isEmpty()){
                     continue;
                 }
-                Double carbonEmissionCumulated = Double.parseDouble(line[24]);
-                carbonData.setCarbonEmissionCumulated(carbonEmissionCumulated);
 
                 carbonData.setCreationDate(creationDate);
 

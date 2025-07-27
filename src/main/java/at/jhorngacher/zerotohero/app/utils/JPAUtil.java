@@ -6,7 +6,7 @@ import jakarta.persistence.Persistence;
 
 /**
  *
- * Java Persistence Entity Manager Provider :)
+ * Globale Entity Manager Klasse
  *
  */
 

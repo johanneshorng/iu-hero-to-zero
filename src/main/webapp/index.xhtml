@@ -5,15 +5,20 @@
       xmlns:f="http://java.sun.com/jsf/core"><h:head>
     <title>ZeroToHero - CO2 Emissionen</title>
     <h:outputStylesheet name="src/css/core.css" />
+    <h:outputStylesheet name="src/css/tailwind.css"/>
 </h:head>
 <h:body>
 
 <div id="main">
 
-        <div id="navigation">
+        <div id="topnav" class="w-full bb-slate-100 py-5 flex flex-row">
 
-            <p:link value="Startseite" icon="pi pi-home" href="#" styleClass="active" />
-            <p:link value="Emissionen hinzufügen" rendered="#{userAccountBean.accountLoggedIn}" href="./add.xhtml" />
+            <div class="flex-1/2">
+
+                <p:link value="Startseite" icon="pi pi-home" href="#" styleClass="rounded-2xl bg-slate-100 text-gray-700 py-3 px-10" />
+                <p:link value="Emissionen hinzufügen" rendered="#{userAccountBean.accountLoggedIn}" href="./create.xhtml" styleClass="py-3 px-10 rounded-2xl hover:bg-slate-100 bg-white"/>
+
+            </div>
 
             <div class="navigation-end">
 
@@ -23,18 +28,19 @@
                 </h:form>
 
                 <p:link href="./login.xhtml" rendered="#{not userAccountBean.accountLoggedIn}" icon="pi pi-directions" value="Login"/>
-            </div>>
+            </div>
 
         </div>
 
-        <div class="greeting-container">
+        <div class="container">
             <h1>Willkommen im neuen Zero To Hero Dashboard</h1>
             <h2>Diese Applikation bietet die Möglichkeit CO2-Emissionen aller Länder weltweit anzusehen!</h2>
         </div>
 
-        <h:form styleClass="country-selection-container">
+        <div class="container flex-col">
 
-            <p:panel header="Wähle hier ein Land aus um dir die aktuellen CO2-Emissionen anzeigen zu lassen">
+            <h:form>
+
                 <p:selectOneListbox
                         id="advanced"
                         value="#{carbonDataBean.selectedCountryName}"
@@ -52,14 +58,34 @@
                     </p:column>
                 </p:selectOneListbox>
                 <p:commandButton value="Daten laden" action="#{carbonDataBean.loadCountry}" update="resultsList" />
-            </p:panel>
 
-            <p:panel id="resultsList">
-                <h:outputText value="Hier steht dein Datensatz" />
-                <h:outputText value="#{carbonDataBean.selectedCountry.carbonEmission}" />
-            </p:panel>
+                <p:panel id="resultsList">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column style="width: 33%;">
+                                <strong>Land:</strong><br />
+                                <h:outputText value="#{carbonDataBean.selectedCountry.countryName}" />
+                            </p:column>
+                            <p:column style="width: 33%;">
+                                <strong>CO₂-Emissionen (kt):</strong><br />
+                                <h:outputText value="#{carbonDataBean.selectedCountry.carbonEmission}" />
+                            </p:column>
+                            <p:column style="width: 33%;">
+                                <strong>Einwohnerzahl:</strong><br />
+                                <h:outputText value="#{carbonDataBean.selectedCountry.countryPopulation}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="3">
+                                <strong>CO₂ pro Einwohner (t):</strong>
+                                <h:outputText value="#{carbonDataBean.selectedCountry.carbonEmissionPerInhabitant}" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:panel>
 
-        </h:form>
+            </h:form>
+        </div>
 
     </div>
 

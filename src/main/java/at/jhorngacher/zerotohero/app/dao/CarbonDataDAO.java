@@ -17,7 +17,7 @@ import java.util.List;
 
 public class CarbonDataDAO {
 
-    public void save(CarbonData carbonData) {
+    public Boolean save(CarbonData carbonData) {
         EntityManager em = JPAUtil.getEntityManager();
 
         try{
@@ -27,10 +27,13 @@ public class CarbonDataDAO {
         }
         catch(Exception ex){
             em.getTransaction().rollback();
+            return false;
         }
         finally{
             em.close();
         }
+
+        return true;
     }
 
     public List<CarbonData> findAll(){
@@ -72,6 +75,23 @@ public class CarbonDataDAO {
             TypedQuery<CarbonData> query = em.createQuery("Select c from CarbonData c where c.emissionYear = :emissionYear", CarbonData.class);
             query.setParameter("emissionYear", emissionYear);
             return query.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        finally{
+            em.close();
+        }
+    }
+
+    public String getCountryCode(String countryName){
+        EntityManager em = JPAUtil.getEntityManager();
+
+        try{
+            TypedQuery<String> query = em.createQuery("Select DISTINCT c.countryCode from CarbonData c where c.countryName = :countryName", String.class);
+            query.setParameter("countryName", countryName);
+            query.setMaxResults(1);
+
+            return query.getSingleResult();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
