@@ -1,0 +1,27 @@
+{
+  "name": "at.jhorngacher.zerotohero",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:css": "npx @tailwindcss/cli -i ./src/main/webapp/resources/src/css/input.css -o ./src/main/webapp/resources/src/css/tailwind.css --minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johanneshorng/iu-hero-to-zero.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johanneshorng/iu-hero-to-zero/issues"
+  },
+  "homepage": "https://github.com/johanneshorng/iu-hero-to-zero#readme",
+  "description": "",
+  "devDependencies": {
+    "tailwindcss": "^4.1.11"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.11"
+  }
+}
