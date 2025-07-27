@@ -30,7 +30,6 @@ public class CarbonData{
     private String countryCode;
     private Long countryPopulation;
     private Double carbonEmission;
-    private Double carbonEmissionPerInhabitant;
     private Integer author;
     private LocalDate creationDate;
 
@@ -80,13 +79,6 @@ public class CarbonData{
         this.carbonEmission = carbonEmission;
     }
 
-    public Double getCarbonEmissionPerInhabitant() {
-        return carbonEmissionPerInhabitant;
-    }
-
-    public void setCarbonEmissionPerInhabitant(Double carbonEmission) {
-        this.carbonEmissionPerInhabitant = carbonEmission / this.carbonEmission;
-    }
 
     public Integer getAuthor() {
         return author;

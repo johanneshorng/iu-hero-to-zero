@@ -1,6 +1,8 @@
 package at.jhorngacher.zerotohero.app.beans;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import at.jhorngacher.zerotohero.app.utils.ErrorMessage;
+import at.jhorngacher.zerotohero.app.utils.FacesContextHelper;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -13,7 +15,7 @@ import at.jhorngacher.zerotohero.app.dao.UserAccountDAO;
 
 @Named
 @SessionScoped
-public class UserAccountBean implements Serializable {
+public class UserAccountBean extends ErrorMessage implements Serializable {
 
     private UserAccount account;
     private String accountEmail;
@@ -89,14 +91,7 @@ public class UserAccountBean implements Serializable {
         setAccountEmail(temporaryAccount.getAccountEMail());
         setUserAccount(temporaryAccount);
 
-        try {
-            FacesContext.getCurrentInstance()
-                    .getExternalContext()
-                    .redirect("index.xhtml");
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        redirect("index.xhtml");
 
 
     }
@@ -105,24 +100,11 @@ public class UserAccountBean implements Serializable {
 
         if(getUserAccount() != null){
 
-            setAccountLoggedIn(false);
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.getExternalContext().invalidateSession();
-            try{
-                context.getExternalContext().redirect("index.xhtml");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
+            invalidateSession("index.xhtml");
         }
 
         return null;
 
-    }
-
-    private void addErrorMessage(String title, String message){
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, title, message));
     }
 
     public String hashPassword(String password){

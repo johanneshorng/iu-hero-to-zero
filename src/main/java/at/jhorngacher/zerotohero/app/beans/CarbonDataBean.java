@@ -1,6 +1,7 @@
 package at.jhorngacher.zerotohero.app.beans;
 
 import at.jhorngacher.zerotohero.app.models.CarbonData;
+import at.jhorngacher.zerotohero.app.utils.ErrorMessage;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
@@ -13,29 +14,106 @@ import at.jhorngacher.zerotohero.app.dao.CarbonDataDAO;
 
 @Named
 @ViewScoped
-public class CarbonDataBean implements Serializable {
-
-   private  CarbonData selectedCountry;
-   private List<String> countries;
-   private String selectedCountryName;
-   private CarbonData carbonData;
+public class CarbonDataBean extends ErrorMessage implements Serializable {
 
     /**
-     * Eingabefelder zur Erstellung eines neuen ModelEintrags ( andere Felder sind nicht manuell zu pflegen )
+     *  CarbonData selectedCountry = 1 Datensatz zu einem ausgewählten Land -> index.xhtml
      */
-    private Integer emissionYear;
+    private  CarbonData selectedCountry;
+
+    /**
+     *  List<countryNames> = Liste mit allen Ländernnamen die lt. Datenbank bereits verfügbar sind!
+     */
+    private List<String> countries;
+
+    /**
+     * String selectedCountryName = Der Name des Landes von welchem ein CarbonData Datensatz geladen werden sol
+     */
+    private String selectedCountryName;
+
+    /**
+     *
+     * CarbonData Model Properties um einen neuen Eintrag in der Datenbank zu erstellen
+     *
+     */
+    private Integer emissionYear; // emissionYear muss in diesem Kontext ein Integer sein obwohl es im Datenmodel als Year typisiert ist -> JSF/Primefaces Datepicker unterstützen Java Year nicht!
     private String countryName;
     private String countryCode;
     private Long countryPopulation;
     private Double carbonEmission;
-    private Double carbonEmisisonPerInhabitant;
-    private Integer authorId;
+    private Integer author;
+    private CarbonData carbonDataModel;
 
-   public List<String> getCountries() {
-
+    /**
+     *
+     * Getter Methoden
+     *
+     */
+    public List<String> getCountries() {
         countries = new CarbonDataDAO().getCountryNames();
         return countries;
+    }
 
+    public CarbonData getSelectedCountr(){
+        return selectedCountry;
+    }
+
+    public String getSelectedCountryName(){
+        return selectedCountryName;
+    }
+
+    public String getCountryName(){
+        return countryName;
+    }
+
+    public String getCountryCode(){
+        return countryCode;
+    }
+
+    public Long getCountryPopulation(){
+        return countryPopulation;
+    }
+
+    public Double getCarbonEmission(){
+        return carbonEmission;
+    }
+
+    public Integer getAuthor(){
+        return author;
+    }
+
+    /**
+     *
+     * Setter Methoden
+     *
+     */
+    public void setSelectedCountry(CarbonData selectedCountry){
+        this.selectedCountry = selectedCountry;
+    }
+
+    public void setSelectedCountryName(String selectedCountryName){
+         this.selectedCountryName = selectedCountryName;
+    }
+
+    public void setEmissionYear(Integer emissionYear){
+        this.emissionYear = emissionYear;
+    }
+
+    public void setCountryName(String countryName){
+        this.countryName = countryName;
+
+        String cc = new CarbonDataDAO().getCountryCode(countryName);
+
+        this.setCountryCode(cc);
+
+    }
+
+    public void setCountryCode(String countryCode){
+        this.countryCode = countryCode;
+    }
+
+    public void setCarbonEmission(Double carbonEmission){
+        this.carbonEmission = carbonEmission;
     }
 
     public void setCountries(List<String> countries) {
@@ -44,124 +122,42 @@ public class CarbonDataBean implements Serializable {
 
     }
 
-    public CarbonData getSelectedCountry() {
-        return selectedCountry;
-    }
-
-    public void setSelectedCountry(CarbonData selectedCountry) {
-        this.selectedCountry = selectedCountry;
-    }
-
+    /**
+     *
+     * Utility Methoden
+     * -> Aufrufe an Dataobject in /dao
+     *
+     */
     public void loadCountry(){
 
         selectedCountry = new CarbonDataDAO().getSelectedCountry(selectedCountryName);
 
     }
 
-    public String getSelectedCountryName() {
-       return selectedCountryName;
-    }
-
-    public void setSelectedCountryName(String selectedCountryName) {
-       this.selectedCountryName = selectedCountryName;
-    }
-
-    public CarbonData getCarbonData() {
-       return carbonData;
-    }
-
-    public void setCarbonData(CarbonData carbonData) {
-       this.carbonData = carbonData;
-    }
-
-    /**
-     *
-     * Allgemeine Speicher-Methode zum Erstellen eines neues carbonData Models
-     * -> hier erfolgen außerdem die Berechnung der kumulierten CO2 Emissionen sowie die CO2 Emissionen pro Einwohner
-     * @return
-     */
-    public String save(){
-        CarbonData carbonData = new CarbonData();
-        carbonData.setCountryName(countryName);
-        carbonData.setCountryCode(countryCode);
-        carbonData.setCountryPopulation(countryPopulation);
-        carbonData.setCarbonEmission(carbonEmission);
-        carbonData.setAuthor(authorId);
-
-        LocalDate creationDate = LocalDate.now();
-        carbonData.setCreationDate(creationDate);
-
-        /**
-         * Emission pro Einwohner
-         */
-        carbonEmisisonPerInhabitant = carbonEmission / countryPopulation;
-        carbonData.setCarbonEmissionPerInhabitant(carbonEmisisonPerInhabitant);
+    public void saveData(){
 
         /**
          *
-         * Prüfe ob bereits ein Eintrag mit dem gewählten Jahr existiert
+         * Erstellen eines neuen Basis-Datenmodells
+         *
          */
+        carbonDataModel = new CarbonData();
+        carbonDataModel.setCountryName(countryName);
+        carbonDataModel.setCountryCode(countryCode);
+        carbonDataModel.setCountryPopulation(countryPopulation);
+        carbonDataModel.setCarbonEmission(carbonEmission);
+        carbonDataModel.setAuthor(author);
+        carbonDataModel.setCreationDate(LocalDate.now());
+
+        Boolean success = new CarbonDataDAO().save(carbonDataModel);
+
+        if(!success){
+            addErrorMessage("Speicherfehler", "Das Speichern der Emissionsdaten ist fehlgeschlagen!");
+        }
 
 
-        //Boolean result = new CarbonDataDAO().save(carbonData);
 
-       return null;
 
     }
-
-    public String getCountryName(){
-       return countryName;
-    }
-
-    public void setCountryName(String countryName) {
-       this.countryName = countryName;
-
-       // Wir setzten sobald der countryName geupdated wurde automatisch den Code ( = laden aus der DB )
-       String cc = new CarbonDataDAO().getCountryCode(countryName);
-       if(!cc.isEmpty()){
-           setCountryCode(cc);
-       }
-    }
-
-    public void setEmissionYear(Integer emissionYear) {
-       this.emissionYear = emissionYear;
-    }
-
-    public Year getEmissionYear() {
-       return emissionYear != null ? Year.of(emissionYear) : null;
-    }
-
-    public String getCountryCode() {
-        return countryCode;
-    }
-    public void setCountryCode(String countryCode) {
-       this.countryCode = countryCode;
-    }
-
-    public Long getCountryPopulation() {
-       return countryPopulation;
-    }
-
-    public void setCountryPopulation(Long countryPopulation) {
-       this.countryPopulation = countryPopulation;
-    }
-
-    public Double getCarbonEmission() {
-        return carbonEmission;
-    }
-
-    public void setCarbonEmission(Double carbonEmission) {
-        this.carbonEmission = carbonEmission;
-    }
-
-    public Integer getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(Integer authorId) {
-        this.authorId = authorId;
-    }
-
-    // Getter & Setter für carbonEmissionCumulated & carbonEmissionPerInhabitant sind nicht notwendig - diese werden in der Backendlogik kalkuliert
 
 }
