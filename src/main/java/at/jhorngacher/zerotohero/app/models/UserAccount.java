@@ -1,4 +1,5 @@
 package at.jhorngacher.zerotohero.app.models;
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
@@ -38,7 +39,9 @@ public class UserAccount {
     }
 
     public void setAccountPassword(String accountPassword) {
-        this.accountPassword = accountPassword;
+
+        this.accountPassword = BCrypt.withDefaults().hashToString(14, accountPassword.toCharArray());
+
     }
 
     public Integer getAccountId() {

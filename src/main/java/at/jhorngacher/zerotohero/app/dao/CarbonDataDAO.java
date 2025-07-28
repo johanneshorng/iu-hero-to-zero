@@ -36,12 +36,28 @@ public class CarbonDataDAO {
         return true;
     }
 
+    public Boolean update(CarbonData carbonData) {
+        EntityManager em = JPAUtil.getEntityManager();
+        try{
+            em.getTransaction().begin();
+            em.merge(carbonData);
+            em.getTransaction().commit();
+        } catch (Exception ex){
+            em.getTransaction().rollback();
+            return false;
+        }
+        finally{
+            em.close();
+        }
+        return true;
+    }
+
     public List<CarbonData> findAll(){
 
         EntityManager em = JPAUtil.getEntityManager();
 
         try{
-            TypedQuery<CarbonData> query = em.createQuery("Select c from CarbonData c ORDER BY c.emissionYear, c.countryName", CarbonData.class);
+            TypedQuery<CarbonData> query = em.createQuery("Select c from CarbonData c ORDER BY c.emissionYear DESC, c.countryName ASC", CarbonData.class);
             return query.getResultList();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -129,6 +145,28 @@ public class CarbonDataDAO {
         try{
             TypedQuery<CarbonData> query = em.createQuery("Select c from CarbonData c where c.countryName = :countryName ORDER BY c.emissionYear DESC", CarbonData.class);
             query.setParameter("countryName", countryName);
+            query.setMaxResults(1);
+
+            data =  query.getSingleResult();
+        } catch(Exception ex){
+            throw new RuntimeException(ex);
+        }
+        finally{
+            em.close();
+        }
+
+        return data;
+
+    }
+
+    public CarbonData findById(Long id){
+
+        EntityManager em = JPAUtil.getEntityManager();
+        CarbonData data = null;
+
+        try{
+            TypedQuery<CarbonData> query = em.createQuery("Select c from CarbonData c where c.dataId = :dataId", CarbonData.class);
+            query.setParameter("dataId", id);
             query.setMaxResults(1);
 
             data =  query.getSingleResult();

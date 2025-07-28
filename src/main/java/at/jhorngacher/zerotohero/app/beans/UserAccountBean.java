@@ -1,7 +1,7 @@
 package at.jhorngacher.zerotohero.app.beans;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import at.jhorngacher.zerotohero.app.utils.ErrorMessage;
+import at.jhorngacher.zerotohero.app.utils.UserMessages;
 import at.jhorngacher.zerotohero.app.utils.FacesContextHelper;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
@@ -15,7 +15,7 @@ import at.jhorngacher.zerotohero.app.dao.UserAccountDAO;
 
 @Named
 @SessionScoped
-public class UserAccountBean extends ErrorMessage implements Serializable {
+public class UserAccountBean extends UserMessages implements Serializable {
 
     private UserAccount account;
     private String accountEmail;
@@ -23,11 +23,11 @@ public class UserAccountBean extends ErrorMessage implements Serializable {
     private String accountPassword;
     private Boolean accountLoggedIn;
 
-    public UserAccount getUserAccount(){
+    public UserAccount getAccount(){
         return account;
     }
 
-    public void setUserAccount(UserAccount account){
+    public void setAccount(UserAccount account){
         this.account = account;
     }
 
@@ -63,6 +63,8 @@ public class UserAccountBean extends ErrorMessage implements Serializable {
         this.accountLoggedIn = accountLoggedIn;
     }
 
+
+
     public void login() {
 
         UserAccount temporaryAccount = new UserAccountDAO().loadAccount(accountEmail);
@@ -70,7 +72,7 @@ public class UserAccountBean extends ErrorMessage implements Serializable {
         // Wenn kein userAccount zurückgegeben wird, Fehlermeldung schmeißen und auf Login-Seite bleiben //
         if(temporaryAccount == null){
             setAccountLoggedIn(false);
-            addErrorMessage("Accountfehler", "Es existiert kein Account mit den angegeben Zugangsdaten");
+            addErrorMessage("Fehler beim Login! Benutzerdaten prüfen!", "");
             return;
         }
 
@@ -81,7 +83,7 @@ public class UserAccountBean extends ErrorMessage implements Serializable {
         if(!result.verified){
 
             setAccountLoggedIn(false);
-            addErrorMessage("Accountfehler", "Das eingegebene Passwort ist nicht gültig!");
+            addErrorMessage("Fehler beim Login! Benutzerdaten prüfen!", "");
             return;
 
         }
@@ -89,7 +91,7 @@ public class UserAccountBean extends ErrorMessage implements Serializable {
         setAccountLoggedIn(true);
         setAccountName(temporaryAccount.getAccountName());
         setAccountEmail(temporaryAccount.getAccountEMail());
-        setUserAccount(temporaryAccount);
+        setAccount(temporaryAccount);
 
         redirect("index.xhtml");
 
@@ -98,7 +100,7 @@ public class UserAccountBean extends ErrorMessage implements Serializable {
 
     public String logout() {
 
-        if(getUserAccount() != null){
+        if(getAccount() != null){
 
             invalidateSession("index.xhtml");
         }

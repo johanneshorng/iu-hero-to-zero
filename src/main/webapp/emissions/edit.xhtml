@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>ZeroToHero - CO2 Emissionen</title>
+    <h:outputStylesheet name="src/css/tailwind.css" />
+</h:head>
+<h:body styleClass="bg-gray-100 flex px-0 py-0 m-0 flex-col flex-wrap gap-4">
+    <ui:include src="/components/navigation.xhtml" />
+
+    <div class="relative mx-auto w-1/2 rounded-xl border border-slate-200 bg-white shadow-lg ">
+        <div class="flex grow items-center px-5 py-5 sm:px-5 sm:py-5 gap-4">
+            <div class="grow">
+                <p:linkButton
+                        href="./index.xhtml" value="Zur Übersicht" styleClass="mb-4 " />
+                <h:form rendered="#{userAccountBean.accountLoggedIn}" styleClass="flex flex-row flex-wrap gap-y-3">
+                    <p:messages id="messages" showDetail="false" closable="true" autoUpdate="true" styleClass="w-full"/>
+                    <h5 class="mt-0 w-full text-xl">Emissionsdatensatz bearbeiten</h5>
+                    <div class="flex flex-col flex-nowrap justify-between w-1/2 gap-2">
+                        <h:outputLabel for="emissionYear" value="Emissionsjahr" styleClass="w-full"/>
+                        <p:inputText value="#{emissionsEdit.editable.emissionYear}" id="emissionYear" disabled="true" styleClass="w-3/4"/>
+                    </div>
+                    <div class="w-1/2 flex-col flex flex-nowrap justify-between">
+                        <h:outputLabel for="emissionCountry" value="Land wählen" styleClass="w-full"/>
+                        <div class="w-full">
+                            <p:selectOneMenu
+                                    id="emissionCountry"
+                                    value="#{emissionsEdit.editable.countryName}"
+                                    var="c"
+                                    fileMatchMode="contains"
+                                    filter="true"
+                                    required="true"
+                                    styleClass="w-3/4"
+                            >
+                                <f:selectItems
+                                        value="#{emissionsCreate.countries}"
+                                        var="country"
+                                        itemLabel="#{country}"
+                                        itemValue="#{country}"
+
+                                />
+                                <p:column>
+                                    <h:outputText value="#{c}" />
+                                </p:column>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="w-1/2 flex-col flex flex-nowrap justify-between">
+                        <h:outputLabel for="carbonEmission" value="CO2 Emissionen in Kilotonnen" styleClass="w-full" />
+                        <div class="w-full">
+                            <h:inputText value="#{emissionsEdit.editable.carbonEmission}" id="carbonEmission" required="true" styleClass="w-3/4" />
+                        </div>
+                    </div>
+                    <div class="w-1/2 flex-col flex flex-nowrap justify-between">
+                        <h:outputLabel for="countryPopulation" value="Einwohnerzahl" styleClass="w-full" />
+                        <div class="w-full">
+                            <h:inputText value="#{emissionsEdit.editable.countryPopulation}" id="countryPopulation" required="true" styleClass="w-3/4" />
+                        </div>
+                    </div>
+                    <h:inputHidden value="#{emissionsEdit.editable.author}" required="true"/>
+                    <f:metadata>
+                        <f:viewAction action="#{emissionsEdit.setAuthor(userAccountBean.account.accountId)}" />
+                    </f:metadata>
+
+                    <p:commandButton
+                            value="Daten aktualsieren"
+                            action="#{emissionsEdit.save}"
+                            process="@form"
+                            update="messages"
+                            styleClass="w-full"
+                    />
+
+                </h:form>
+            </div>
+        </div>
+    </div>
+</h:body>
+</html>

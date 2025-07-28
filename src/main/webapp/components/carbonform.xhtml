@@ -1,0 +1,84 @@
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+              xmlns:h="http://xmlns.jcp.org/jsf/html"
+              xmlns:ui="http://java.sun.com/jsf/facelets"
+              xmlns:f="http://xmlns.jcp.org/jsf/core"
+              xmlns:p="http://primefaces.org/ui">
+
+    <!-- Modal-Dialog -->
+    <p:dialog id="carbonform"
+              widgetVar="carbonformWidget"
+              header="#{carbonDataBean.isEditing ? 'Datensatz bearbeiten' : 'Neuen Datensatz erstellen'}"
+              modal="true"
+              closable="true"
+              resizable="false"
+              width="500"
+              responsive="true"
+                dynamic="true"
+    >
+
+        <div class="w-full">
+            <div class="flex flex-col flex-nowrap justify-between w-1/2 gap-2">
+                <h:outputLabel for="emissionYear" value="Emissionsjahr" styleClass="w-full"/>
+                <div class="w-full">
+                    <p:selectOneMenu value="#{carbonDataBean.editableCarbonData.emissionYear}" id="emissionYear" styleClass="w-3/4">
+                        <f:selectItems value="#{carbonDataBean.yearList}" />
+                    </p:selectOneMenu>
+                </div>
+            </div>
+            <div class="w-1/2 flex-col flex flex-nowrap justify-between">
+                <h:outputLabel for="emissionCountry" value="Land wählen" styleClass="w-full"/>
+                <div class="w-full">
+                    <p:selectOneMenu
+                            id="emissionCountry"
+                            value="#{carbonDataBean.editableCarbonData.countryName}"
+                            var="c"
+                            fileMatchMode="contains"
+                            filter="true"
+                            required="true"
+                            styleClass="w-3/4"
+                    >
+                        <f:selectItems
+                                value="#{carbonDataBean.countries}"
+                                var="country"
+                                itemLabel="#{country}"
+                                itemValue="#{country}"
+                        />
+                        <p:column>
+                            <h:outputText value="#{c}" />
+                        </p:column>
+                    </p:selectOneMenu>
+                </div>
+            </div>
+            <div class="w-1/2 flex-col flex flex-nowrap justify-between">
+                <h:outputLabel for="carbonEmission" value="CO2 Emissionen in Kilotonnen" styleClass="w-full" />
+                <div class="w-full">
+                    <h:inputText value="#{carbonDataBean.editableCarbonData.carbonEmission}" id="carbonEmission" required="true" styleClass="w-3/4" />
+                </div>
+            </div>
+            <div class="w-1/2 flex-col flex flex-nowrap justify-between">
+                <h:outputLabel for="countryPopulation" value="Einwohnerzahl" styleClass="w-full" />
+                <div class="w-full">
+                    <h:inputText value="#{carbonDataBean.editableCarbonData.countryPopulation}" id="countryPopulation" required="true" styleClass="w-3/4" />
+                </div>
+            </div>
+            <h:inputHidden value="#{carbonDataBean.editableCarbonData.author}" required="true"/>
+            <f:metadata>
+                <f:viewAction action="#{carbonDataBean.editableCarbonData.setAuthor(userAccountBean.account.accountId)}" />
+            </f:metadata>
+        </div>
+
+        <f:facet name="footer">
+            <p:commandButton value="Speichern"
+                             actionListener="#{carbonDataBean.save}"
+                             update=":emissionsForm:carbonTable"
+                             oncomplete="PF('carbonformWidget').hide()"
+                             process="@form" />
+
+            <p:commandButton value="Abbrechen"
+                             onclick="PF('carbonformWidget').hide(); return false;"
+                             styleClass="ui-button-secondary" />
+        </f:facet>
+
+    </p:dialog>
+
+</ui:component>

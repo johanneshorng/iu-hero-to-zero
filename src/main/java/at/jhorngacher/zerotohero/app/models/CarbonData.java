@@ -25,7 +25,7 @@ public class CarbonData{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer dataId;
 
-    private Year emissionYear;
+    private Integer emissionYear;
     private String countryName;
     private String countryCode;
     private Long countryPopulation;
@@ -39,11 +39,11 @@ public class CarbonData{
 
     // kein Setter da dies ein AI aus der DB ist!
 
-    public Year getEmissionYear() {
+    public Integer getEmissionYear() {
         return emissionYear;
     }
 
-    public void setEmissionYear(Year emissionYear) {
+    public void setEmissionYear(Integer emissionYear) {
         this.emissionYear = emissionYear;
     }
 
