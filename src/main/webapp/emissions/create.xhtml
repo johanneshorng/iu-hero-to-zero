@@ -57,12 +57,6 @@
                             <h:inputText value="#{emissionsCreate.carbonEmission}" id="carbonEmission" required="true" styleClass="w-3/4" />
                         </div>
                     </div>
-                    <div class="w-1/2 flex-col flex flex-nowrap justify-between">
-                        <h:outputLabel for="countryPopulation" value="Einwohnerzahl" styleClass="w-full" />
-                        <div class="w-full">
-                            <h:inputText value="#{emissionsCreate.countryPopulation}" id="countryPopulation" required="true" styleClass="w-3/4" />
-                        </div>
-                    </div>
                     <h:inputHidden value="#{emissionsCreate.author}" required="true"/>
                     <f:metadata>
                         <f:viewAction action="#{emissionsCreate.setAuthor(userAccountBean.account.accountId)}" />
