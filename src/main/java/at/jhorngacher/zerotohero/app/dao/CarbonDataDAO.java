@@ -14,7 +14,6 @@ import java.util.List;
  *
  */
 
-
 public class CarbonDataDAO {
 
     public Boolean save(CarbonData carbonData) {
